@@ -10,6 +10,10 @@ app.use(express.json());
 let names = [];
 let sseClients = [];
 
+app.get('/api/ping', (_req, res) => {
+  res.json({ message: 'Successfully hit endpoint' });
+});
+
 app.get('/api/names', (_req, res) => {
   res.json(names);
 });
