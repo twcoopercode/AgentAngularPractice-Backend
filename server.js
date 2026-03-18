@@ -1,13 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
+const DATA_FILE = path.join(__dirname, 'names.json');
 
 app.use(cors());
 app.use(express.json());
 
-let names = [];
+let names = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')) : [];
 let sseClients = [];
 
 app.get('/api/ping', (_req, res) => {
@@ -40,6 +43,7 @@ app.post('/api/names', (req, res) => {
   }
 
   names.push(name.trim());
+  fs.writeFileSync(DATA_FILE, JSON.stringify(names));
 
   // Push updated list to every connected browser
   sseClients.forEach(client => {
