@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "FrntBackend API",
+    "description": "All API endpoints for the FrntBackend Node.js / MongoDB server.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "description": "Change this to your Render URL when testing the deployed version, e.g. https://your-app.onrender.com"
+    }
+  ],
+  "item": [
+    {
+      "name": "Ping",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/ping",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "ping"]
+        },
+        "description": "Health check — confirms the server is running and reachable."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Names",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/names",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "names"]
+        },
+        "description": "Returns the current list of names stored in the MongoDB 'people' collection as a JSON array."
+      },
+      "response": []
+    },
+    {
+      "name": "Add Name",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/api/names",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "names"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Alice\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Adds a new name to the MongoDB 'people' collection. Sends a JSON body with a single 'name' field. Returns the full updated names array."
+      },
+      "response": []
+    },
+    {
+      "name": "Subscribe to Live Updates (SSE)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/names/events",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "names", "events"]
+        },
+        "description": "Opens a Server-Sent Events (SSE) stream. The connection stays open and the server pushes the updated names array whenever a new name is added via POST /api/names.\n\nNOTE: Postman will show the stream as it arrives. The connection won't close on its own — click 'Cancel' in Postman to end it."
+      },
+      "response": []
+    }
+  ]
+}
